@@ -66,7 +66,7 @@ const transacoes = [
 
 const Transacoes = () => {
   const modalRef = useRef<ModalHandle>(null);
-  modalRef.current?.focus();
+  modalRef.current?.open();
 
   const [novaTransacao, setNovaTransacao] = useState({
     nome: "",
