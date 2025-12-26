@@ -6,12 +6,12 @@ const api = axios.create({
   baseURL: "http://localhost:5000",
 });
 
-export const obterUsuario = async (): Promise<Usuario> => {
-  const { data } = await api.get<Usuario>("/usuarios");
+export const obterUsuarios = async (): Promise<Usuario[]> => {
+  const { data } = await api.get<Usuario[]>("/usuarios");
   return data;
 };
 
-export const criarUsuario = async (
+export const criarUsuarioApi = async (
   usuario: Omit<Usuario, "id">
 ): Promise<Usuario> => {
   const { data } = await api.post<Usuario>("/usuarios", usuario);
