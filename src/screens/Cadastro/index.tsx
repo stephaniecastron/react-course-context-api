@@ -14,13 +14,15 @@ import CampoTexto from "../../componentes/CampoTexto/index.js";
 import Fieldset from "../../componentes/Fieldset/index.js";
 import Label from "../../componentes/Label/index.js";
 import { Usuario } from "../../types/usuario.js";
-import { criarUsuario } from "../../api/index.js";
+import { useAppContext } from "../../api/context/AppContext.js";
 
 const Cadastro = () => {
   const [form, setForm] = useState<Omit<Usuario, "id">>({
     nome: "",
     renda: 0,
   });
+
+  const { criarUsuario } = useAppContext();
 
   const aoDigitarNoCampoTexto = (campo: "nome" | "renda", valor: string) => {
     setForm((prevForm) => ({
@@ -33,12 +35,7 @@ const Cadastro = () => {
 
   const aoSubmeterFormulario = async (evento: React.FormEvent) => {
     evento.preventDefault();
-    try {
-      const novoUsuario = await criarUsuario(form);
-      console.log(novoUsuario);
-    } catch (error) {
-      console.log(error);
-    }
+    criarUsuario(form);
     navigate("/home");
   };
 
