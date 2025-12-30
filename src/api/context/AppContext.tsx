@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { AppContextType } from "../../types/app-context";
 import { Usuario } from "../../types/usuario";
-import { obterUsuarios, criarUsuario, criarUsuarioApi } from "..";
+import { obterUsuarios, criarUsuario } from "..";
 
 const AppContext = createContext<AppContextType | null>(null);
 
@@ -21,16 +21,28 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
     carregaDadosUsuario();
   }, []);
 
-  const criarUsuario = async (usuario: Omit<Usuario, "id">) => {
+  const criaUsuario = async (usuario: Omit<Usuario, "id">) => {
     try {
-      const novoUsuario = await criarUsuarioApi(usuario);
+      const novoUsuario = await criarUsuario(usuario);
       setUsuario(novoUsuario);
     } catch (error) {
       console.error("Erro ao criar o usuário:", error);
     }
   };
 
-  return <AppContext.Provider value={{usuario, criarUsuario}}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ usuario,  criarUsuario: criaUsuario }}>
+      {children}
+    </AppContext.Provider>
+  );
 };
 
 export default AppProvider;
+
+export const useAppContext = () => {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error("useAppContext must be used within an AppProvider");
+  }
+  return context;
+};

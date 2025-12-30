@@ -11,7 +11,7 @@ export const obterUsuarios = async (): Promise<Usuario[]> => {
   return data;
 };
 
-export const criarUsuarioApi = async (
+export const criarUsuario = async (
   usuario: Omit<Usuario, "id">
 ): Promise<Usuario> => {
   const { data } = await api.post<Usuario>("/usuarios", usuario);
