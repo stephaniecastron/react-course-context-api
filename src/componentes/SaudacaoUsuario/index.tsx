@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Usuario } from "../../types/usuario";
-import { obterUsuarios } from "../../api";
+import { useAppContext } from "../../api/context/AppContext";
 
 export const StyledUsuario = styled.div`
   grid-area: usuario;
@@ -17,16 +15,7 @@ export const StyledUsuario = styled.div`
 `;
 
 const SaudacaoUsuario = () => {
-  const [usuario, setUsuario] = useState<Usuario | null>(null);
-
-  const buscaUsuario = async () => {
-    const response = await obterUsuarios();
-    setUsuario(response[0]);
-  };
-
-  useEffect(() => {
-    buscaUsuario();
-  }, []); 
+  const { usuario } = useAppContext();
 
   return (
     <StyledUsuario>
